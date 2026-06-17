@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sevgili Ela'ma — Seni Çok Seviyorum</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-base:#060b19;--bg-surface:#0a1128;--navy-deep:#03081a;
+  --accent-red:#d90429;--accent-burgundy:#800020;--accent-rose:#ff4d6d;
+  --text-primary:#f8f9fa;--text-secondary:#cbd5e1;
+  --font-heading:"Playfair Display",serif;--font-quote:"Cormorant Garamond",serif;--font-body:"Outfit",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg-base);color:var(--text-primary);font-family:var(--font-body);-webkit-font-smoothing:antialiased;scroll-behavior:smooth;overflow-x:hidden}
+body{background:radial-gradient(ellipse at top right,rgba(217,4,41,.18) 0%,transparent 55%),radial-gradient(ellipse at bottom left,rgba(128,0,32,.22) 0%,transparent 60%),linear-gradient(180deg,var(--navy-deep) 0%,var(--bg-surface) 50%,var(--navy-deep) 100%);background-attachment:fixed;min-height:100vh}
+::selection{background:var(--accent-red);color:#fff}
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--navy-deep)}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#800020,#d90429);border-radius:8px}
+.font-heading{font-family:var(--font-heading)}
+.font-quote{font-family:var(--font-quote)}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+img{max-width:100%;display:block}
+
+#video-bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+#video-bg video{width:100%;height:100%;object-fit:cover;opacity:.3}
+#video-bg .overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,8,26,.82) 0%,rgba(10,17,40,.7) 35%,rgba(3,8,26,.88) 100%),radial-gradient(ellipse at 30% 30%,rgba(217,4,41,.15) 0%,transparent 55%)}
+
+#hearts{position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden}
+.heart{position:absolute;bottom:-40px;animation:floatUp linear infinite;will-change:transform,opacity}
+@keyframes floatUp{
+  0%{transform:translateY(0) rotate(0) scale(1);opacity:0}
+  10%{opacity:.7}
+  90%{opacity:.5}
+  100%{transform:translateY(-110vh) rotate(360deg) scale(1.3);opacity:0}
+}
+
+#pets{position:fixed;inset:0;pointer-events:none;z-index:3;overflow:hidden}
+.pet{position:absolute;left:0;will-change:transform}
+.pet .bob{width:100%;height:100%;animation:petBob ease-in-out infinite}
+.pet img{width:100%;height:100%;object-fit:contain;image-rendering:pixelated;user-select:none}
+@keyframes flyLR{
+  0%{transform:translateX(-130px)}
+  50%{transform:translateX(calc(100vw + 30px))}
+  50.01%{transform:translateX(calc(100vw + 30px)) scaleX(-1)}
+  100%{transform:translateX(-130px) scaleX(-1)}
+}
+@keyframes flyRL{
+  0%{transform:translateX(calc(100vw + 30px)) scaleX(-1)}
+  50%{transform:translateX(-130px) scaleX(-1)}
+  50.01%{transform:translateX(-130px) scaleX(1)}
+  100%{transform:translateX(calc(100vw + 30px)) scaleX(1)}
+}
+@keyframes petBob{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(var(--bob-amp,30px))}
+}
+
+.glass{background:rgba(15,23,56,.55);border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 32px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.05)}
+.glass-red{background:linear-gradient(135deg,rgba(54,12,22,.78) 0%,rgba(20,8,22,.72) 100%);border:1px solid rgba(217,4,41,.25);box-shadow:0 8px 32px rgba(0,0,0,.35),0 0 30px rgba(217,4,41,.08),inset 0 1px 0 rgba(255,255,255,.05)}
+.red-glow{filter:drop-shadow(0 0 18px rgba(217,4,41,.55))}
+.text-shimmer{background:linear-gradient(90deg,#ffb3c6 0%,#ff4d6d 25%,#d90429 50%,#ff4d6d 75%,#ffb3c6 100%);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 4s linear infinite}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes pulse-heart{0%,100%{transform:scale(1);filter:drop-shadow(0 0 12px rgba(217,4,41,.6))}50%{transform:scale(1.08);filter:drop-shadow(0 0 28px rgba(255,77,109,.9))}}
+.heart-pulse{animation:pulse-heart 1.8s ease-in-out infinite}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp 1.1s cubic-bezier(.22,1,.36,1) both}
+@keyframes slowFloat{0%,100%{transform:translate(0,0) rotate(-2deg)}50%{transform:translate(8px,-10px) rotate(2deg)}}
+.slow-float{animation:slowFloat 8s ease-in-out infinite}
+.section-divider{height:1px;background:linear-gradient(90deg,transparent 0%,rgba(217,4,41,.55) 50%,transparent 100%);max-width:1100px;margin:0 auto}
+
+main{position:relative;z-index:10}
+section{padding:80px 24px;position:relative}
+.container{max-width:1100px;margin:0 auto}
+.center{text-align:center}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.5em;color:rgba(255,182,193,.7);margin-bottom:14px}
+
+#hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;overflow:hidden}
+#hero .badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:999px;margin-bottom:30px;font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:rgba(255,182,193,.8)}
+#hero h1{font-family:var(--font-heading);font-weight:900;line-height:.95;font-size:clamp(3rem,9vw,7.5rem);letter-spacing:-.04em}
+#hero h1 .name{display:block;font-style:italic;font-weight:700}
+#hero p.sub{font-family:var(--font-quote);font-style:italic;font-size:clamp(1.15rem,2vw,1.6rem);color:rgba(226,232,240,.9);margin:30px auto 0;max-width:600px}
+.btn-love{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:8px;padding:18px 36px;border-radius:999px;font-family:var(--font-heading);font-weight:600;font-size:18px;color:#fff;background:linear-gradient(135deg,#d90429 0%,#800020 100%);letter-spacing:.06em;box-shadow:0 18px 50px rgba(217,4,41,.5);transition:transform .35s cubic-bezier(.22,1,.36,1)}
+.btn-love:hover{transform:scale(1.05)}
+.btn-love:active{transform:scale(.96)}
+#hero .scroll-hint{margin-top:40px;display:flex;align-items:center;justify-content:center;gap:10px;color:rgba(255,182,193,.8);font-family:var(--font-quote);font-style:italic;font-size:17px}
+.bounce{display:inline-block;animation:bounceY 1.4s ease-in-out infinite}
+@keyframes bounceY{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+.reasons-grid{display:grid;grid-template-columns:1fr;gap:20px;margin-top:56px;max-width:880px;margin-left:auto;margin-right:auto}
+@media (min-width:640px){.reasons-grid{grid-template-columns:1fr 1fr}}
+.reason{padding:28px;border-radius:22px;transition:transform .4s,box-shadow .4s;position:relative;overflow:hidden}
+.reason:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(217,4,41,.22)}
+.reason .num{font-family:var(--font-heading);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,182,193,.6)}
+.reason h3{font-family:var(--font-heading);font-size:26px;font-weight:600;margin:14px 0 10px}
+.reason p{font-family:var(--font-quote);font-style:italic;font-size:17px;color:rgba(226,232,240,.85);line-height:1.55}
+
+#gallery .dot-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;width:104px;height:104px;border-radius:50%;background:radial-gradient(circle at center,#d90429 0%,#800020 60%,#3d0010 100%);box-shadow:0 0 40px rgba(217,4,41,.55),inset 0 0 20px rgba(255,255,255,.15);margin-top:48px}
+#gallery .dot-btn .ring{position:absolute;inset:0;border-radius:50%;border:2px solid rgba(255,77,109,.4);animation:pulse-heart 1.8s ease-in-out infinite}
+#gallery .dot-btn svg{color:#ffeef2}
+#gallery .dot-label{margin-top:14px;font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:rgba(255,182,193,.8)}
+.lightbox{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:16px;background:radial-gradient(ellipse at center,rgba(10,17,40,.95) 0%,rgba(3,8,26,.99) 100%)}
+.lightbox.open{display:flex}
+.lightbox-content{max-width:720px;width:100%;display:flex;flex-direction:column;align-items:center;animation:fadeUp 1s cubic-bezier(.22,1,.36,1) both}
+.lightbox-img-wrap{border-radius:18px;overflow:hidden;background:rgba(0,0,0,.4);box-shadow:0 30px 80px rgba(217,4,41,.25),0 10px 30px rgba(0,0,0,.6)}
+.lightbox-img-wrap img{max-height:60vh;width:auto;margin:0 auto;display:block}
+.lightbox-cap{margin-top:22px;text-align:center;font-family:var(--font-quote);font-style:italic;font-size:20px;color:rgba(255,237,242,.95);max-width:620px;padding:0 16px;line-height:1.55}
+.lightbox-dots{margin-top:20px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.lightbox-dots button{height:8px;border-radius:999px;background:rgba(255,255,255,.25);transition:all .5s;width:10px}
+.lightbox-dots button.active{width:32px;background:linear-gradient(90deg,#ff4d6d,#d90429)}
+.lightbox-counter{margin-top:10px;font-size:12px;letter-spacing:.4em;text-transform:uppercase;color:rgba(255,182,193,.6)}
+.icon-btn{position:absolute;display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;color:#ffeef2;transition:transform .3s;z-index:70}
+.icon-btn:hover{transform:scale(1.1)}
+.lightbox .close-btn{top:16px;right:16px;width:auto;height:auto;padding:0 18px;height:46px;border-radius:999px;background:linear-gradient(135deg,#d90429 0%,#800020 100%);color:#fff;font-family:var(--font-heading);font-weight:600;letter-spacing:.06em;box-shadow:0 12px 30px rgba(217,4,41,.55);display:inline-flex;gap:8px;align-items:center}
+.lightbox .prev-btn{left:16px;top:50%;transform:translateY(-50%)}
+.lightbox .next-btn{right:16px;top:50%;transform:translateY(-50%)}
+.lightbox .esc-hint{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:rgba(255,182,193,.6)}
+
+.letter{position:relative;padding:46px;border-radius:26px;max-width:760px;margin:0 auto}
+.letter .quote-mark{position:absolute;font-family:var(--font-heading);font-size:110px;color:rgba(255,77,109,.3);user-select:none;line-height:1}
+.letter .qm-top{top:-18px;left:22px}
+.letter .qm-bot{bottom:-56px;right:22px}
+.letter .body{font-family:var(--font-quote);font-style:italic;font-size:20px;line-height:1.85;color:rgba(241,245,249,.95)}
+.letter .body p{margin-bottom:16px}
+.letter .sign{text-align:right;padding-top:12px;color:rgba(255,182,193,.8)}
+
+.game-card{position:relative;height:260px;border-radius:22px;display:flex;align-items:center;justify-content:center;gap:24px;overflow:hidden;max-width:620px;margin:44px auto 0}
+.yes-btn{position:relative;z-index:20;padding:20px 50px;border-radius:999px;font-family:var(--font-heading);font-weight:700;font-size:21px;color:#fff;background:linear-gradient(135deg,#d90429 0%,#800020 100%);letter-spacing:.04em;box-shadow:0 18px 50px rgba(217,4,41,.55);transition:transform .45s cubic-bezier(.22,1,.36,1)}
+.no-btn{position:absolute;z-index:20;padding:12px 22px;border-radius:999px;font-size:14px;color:rgba(255,182,193,1);border:1px solid rgba(255,77,109,.3);background:rgba(255,255,255,.05);transition:transform .35s cubic-bezier(.22,1,.36,1)}
+.success-msg{display:flex;flex-direction:column;align-items:center;gap:14px}
+
+#proposal{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;padding:32px 16px;background:radial-gradient(ellipse at center,rgba(20,5,15,.95) 0%,rgba(3,8,26,.99) 100%)}
+#proposal.open{display:flex}
+.proposal-card{position:relative;max-width:620px;width:100%;padding:38px;border-radius:30px;text-align:center;animation:fadeUp 1s cubic-bezier(.22,1,.36,1) both;box-shadow:0 40px 100px rgba(217,4,41,.35),0 10px 30px rgba(0,0,0,.6)}
+.ring{width:180px;height:180px;border-radius:50%;object-fit:cover;border:4px solid rgba(255,77,109,.4);margin:0 auto 22px;box-shadow:0 0 60px rgba(217,4,41,.6),inset 0 0 30px rgba(0,0,0,.4)}
+.proposal-card h2{font-family:var(--font-heading);font-weight:900;font-size:50px;line-height:1.05;color:#fff;margin:12px 0 14px}
+.proposal-card p{font-family:var(--font-quote);font-style:italic;font-size:19px;color:rgba(255,237,242,.9);max-width:440px;margin:0 auto 28px;line-height:1.55}
+.proposal-game{position:relative;height:160px;display:flex;align-items:center;justify-content:center}
+.cry-cat{position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:54px;height:54px;pointer-events:none;image-rendering:pixelated}
+.proposal-success{padding:22px 0}
+.proposal-success .ring-emoji{font-size:84px;margin-bottom:12px}
+.proposal-success h2{font-family:var(--font-heading);font-weight:900;font-size:50px;color:#fff;margin-bottom:12px}
+.proposal-success p{font-family:var(--font-quote);font-style:italic;font-size:21px;color:rgba(255,237,242,.95);max-width:500px;margin:0 auto 24px;line-height:1.55}
+.proposal-dismiss{top:14px;right:14px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
+
+#spotify{position:fixed;bottom:12px;right:12px;z-index:50;width:min(260px,80vw)}
+#spotify .wrap{padding:6px;border-radius:12px;position:relative}
+#spotify iframe{border-radius:10px;display:block}
+#spotify .close{position:absolute;top:-8px;left:-8px;width:24px;height:24px;border-radius:50%;background:#d90429;color:#fff;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.4);font-size:12px}
+#spotify .label{padding:2px 6px;font-size:10px;color:rgba(255,182,193,.8);font-family:var(--font-quote);font-style:italic;display:flex;align-items:center;gap:4px}
+
+footer{padding:54px 24px;text-align:center;position:relative;z-index:10}
+footer p{font-family:var(--font-quote);font-style:italic;font-size:19px;color:rgba(255,182,193,.8)}
+footer .credit{margin-top:6px;font-size:11px;letter-spacing:.5em;text-transform:uppercase;color:rgba(148,163,184,.6)}
+
+@media (max-width:640px){
+  .letter{padding:28px 20px}
+  .letter .body{font-size:17px}
+  .proposal-card{padding:28px 18px}
+  .proposal-card h2{font-size:36px}
+  .yes-btn{padding:16px 32px;font-size:17px}
+  section{padding:64px 20px}
+}
+
+#finalScene{position:fixed;inset:0;z-index:500;display:none;align-items:center;justify-content:center;flex-direction:column;background:radial-gradient(circle at center,#ff4d6d 0%,#800020 40%,#03081a 100%);text-align:center}
+#finalScene.show{display:flex}
+#kissPandas{position:relative;width:420px;height:220px;margin-bottom:30px}
+#kissPandas img{position:absolute;bottom:0;width:170px;image-rendering:pixelated}
+#kissPanda1{left:0;animation:pandaLeft 2s forwards}
+#kissPanda2{right:0;animation:pandaRight 2s forwards}
+@keyframes pandaLeft{to{left:120px}}
+@keyframes pandaRight{to{right:120px}}
+
+</style>
+</head>
+<body>
+<div id="video-bg" aria-hidden="true">
+  <video autoplay muted loop playsinline preload="metadata"
+    src="https://customer-assets.emergentagent.com/job_intimate-design-1/artifacts/7n8onajr_VID_20260617_073406_503.mp4"></video>
+  <div class="overlay"></div>
+</div>
+<div id="hearts" aria-hidden="true"></div>
+<div id="pets" aria-hidden="true"></div>
+<main>
+<section id="hero">
+  <div class="container center fade-up">
+    <div class="badge glass"><span style="color:#d90429">♥</span> SADECE ELA'MA</div>
+    <h1>Sevgili <span class="name text-shimmer">Ela'ma,</span></h1>
+    <p class="sub">Bu küçük dünyayı sadece sana yaptım. Her piksel kalbimden bir damla, her satır sana yazılmış bir nefes.</p>
+    <div style="margin-top:44px">
+      <button id="startBtn" class="btn-love red-glow">♥ Kalbimi aç, Ela</button>
+    </div>
+    <div id="scrollHint" class="scroll-hint" style="display:none">
+      <span>Aşağı kaydır — sana söyleyeceklerim var</span>
+      <span class="bounce">⌄</span>
+    </div>
+  </div>
+</section>
+<div class="section-divider"></div>
+
+<section id="reasons">
+  <div class="container">
+    <div style="text-align:center">
+      <div class="eyebrow">on iki sebep · sonsuzdan başlangıç</div>
+      <h2 class="font-heading" style="font-size:clamp(2rem,5vw,3.4rem);font-weight:700;color:#fff;line-height:1.05">Seni neden<br><span class="text-shimmer">seviyorum, Ela?</span></h2>
+      <p class="font-quote" style="font-style:italic;font-size:19px;color:rgba(226,232,240,.9);margin:18px auto 0;max-width:540px">Aslında saymakla bitmez. Ama bugün, içimden taşan birkaçını burada bırakıyorum.</p>
+    </div>
+    <div class="reasons-grid" id="reasonsGrid"></div>
+  </div>
+</section>
+<div class="section-divider"></div>
+
+<section id="gallery">
+  <div class="container center">
+    <div class="eyebrow">gizli bir köşe</div>
+    <h2 class="font-heading" style="font-size:clamp(2rem,5vw,3.4rem);font-weight:700;color:#fff">Sana ait kareler</h2>
+    <p class="font-quote" style="font-style:italic;font-size:19px;color:rgba(226,232,240,.9);margin:16px auto 0;max-width:580px">Aşağıdaki noktaya dokun — sadece senin için sakladığım kareler ve her birinin altına yazdığım küçük bir aşk sözü...</p>
+    <button id="galleryOpen" class="dot-btn red-glow" aria-label="Galeriyi aç">
+      <span class="ring"></span>
+      <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+    </button>
+    <div class="dot-label">galeri noktası</div>
+    <p style="margin-top:54px;font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:rgba(148,163,184,.6)">8 kare · sadece sana</p>
+  </div>
+</section>
+<div class="section-divider"></div>
+
+<section id="letter">
+  <div class="container">
+    <div class="center" style="margin-bottom:36px">
+      <div class="eyebrow">bir mektup · sadece sana</div>
+      <h2 class="font-heading" style="font-size:clamp(2rem,5vw,3.4rem);font-weight:700;color:#fff">Ela'ya</h2>
+    </div>
+    <article class="letter glass-red">
+      <div class="quote-mark qm-top">&ldquo;</div>
+      <div class="body">
+        <p>Sevgili Ela,</p>
+        <p>Seni tanıdığım günden beri, kalbim eski yerine sığmıyor. Sanki içime bir pencere açtın — oradan giren her ışık senin yüzün, her esinti senin sesin.</p>
+        <p>Sabahları gözlerimi açtığımda ilk düşündüğüm sensin; gece kapatmadan önce son baktığım yıldız da. Aramızdaki mesafe değil, seni düşünmediğim saniye bana uzak geliyor.</p>
+        <p>Bir ömrüm olsa, bir ömür daha isterdim seninle. Bir kalbim olsa, bir kalp daha çoğaltırdım sana yetsin diye.</p>
+        <p>Seni seviyorum, Ela. Bütün dillerin yetmediği, bütün şiirlerin az kaldığı bir sevgiyle. Seninle her gün hayatın en güzel kelimesini yeniden öğreniyorum: <span class="text-shimmer" style="font-style:normal;font-weight:600">sen.</span></p>
+        <p class="sign">— Sonsuza dek seninim.</p>
+      </div>
+      <div class="quote-mark qm-bot">&rdquo;</div>
+    </article>
+  </div>
+</section>
+<div class="section-divider"></div>
+
+<section id="game">
+  <div class="container center">
+    <div class="eyebrow">son bir soru</div>
+    <h2 id="gameTitle" class="font-heading" style="font-size:clamp(2rem,5vw,3.4rem);font-weight:700;color:#fff">Beni sever misin?</h2>
+    <p id="gameSub" class="font-quote" style="font-style:italic;font-size:19px;color:rgba(226,232,240,.9);margin:16px auto 28px;max-width:520px">Cevabını biliyorum aslında... ama yine de senden duymak istiyorum.</p>
+    <div id="gameBox" class="game-card glass">
+      <button id="yesBtn" class="yes-btn red-glow">Evet, çok &#10084;</button>
+      <button id="noBtn" class="no-btn" style="transform:translate(150px,0)">Hayır</button>
+    </div>
+  </div>
+</section>
+<footer>
+  <p>Sonsuza dek seninim, Ela. &#10084;</p>
+  <div class="credit">— yalnız sana yazıldı —</div>
+</footer>
+</main>
+
+<div id="lightbox" class="lightbox" role="dialog" aria-label="Galeri">
+  <button id="lbClose" class="icon-btn close-btn">&#10005; <span>Kapat</span></button>
+  <button id="lbPrev" class="icon-btn glass-red prev-btn" aria-label="Önceki">&lsaquo;</button>
+  <button id="lbNext" class="icon-btn glass-red next-btn" aria-label="Sonraki">&rsaquo;</button>
+  <div class="lightbox-content">
+    <div class="lightbox-img-wrap glass-red"><img id="lbImg" alt=""></div>
+    <figcaption id="lbCap" class="lightbox-cap"></figcaption>
+    <div id="lbDots" class="lightbox-dots"></div>
+    <div id="lbCounter" class="lightbox-counter">1 / 8</div>
+  </div>
+  <div class="esc-hint">ESC veya boş alana dokun · çıkmak için</div>
+</div>
+
+<div id="proposal" role="dialog" aria-label="Evlenme teklifi">
+  <div id="proposalCard" class="proposal-card glass-red">
+    <button id="proposalDismiss" class="icon-btn proposal-dismiss">&#10005;</button>
+    <div id="proposalAsk">
+      <img class="ring slow-float" alt="Yüzük" src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=900&q=80">
+      <div class="eyebrow">bir soru, bir hayat</div>
+      <h2>Benimle <span class="text-shimmer">evlenir misin,</span><br>Ela?</h2>
+      <p>Hayatımın geri kalanını seninle geçirmek istiyorum. Her sabah yanında uyanmak, her gece elini tutarak uyumak. Sonsuza dek, sadece sen.</p>
+      <div class="proposal-game" id="proposalGame">
+        <button id="pYes" class="yes-btn red-glow">Evet &#128150;</button>
+        <button id="pNo" class="no-btn" style="transform:translate(130px,0)">
+          <img class="cry-cat" src="https://customer-assets.emergentagent.com/job_intimate-design-1/artifacts/16y10g39_2dc489f0565f6f9b325230ab59976c2e.gif" alt="">
+          Hayır
+        </button>
+      </div>
+    </div>
+    <div id="proposalSuccess" class="proposal-success" style="display:none">
+      <div class="ring-emoji">&#128150;</div>
+      <h2><span class="text-shimmer">EVET dedin!</span></h2>
+      <p>Bugünden sonra bütün yarınlarımız bizim. Söz veriyorum Ela — hayatımın her gününde, ilk günkü gibi seveceğim seni.</p>
+      <button id="pCloseSuccess" class="btn-love red-glow">Sonsuza dek seninim &#10084;</button>
+    </div>
+  </div>
+</div>
+
+<div id="spotify">
+  <div class="wrap glass-red">
+    <button id="spClose" class="close" aria-label="Müziği kapat">&#10005;</button>
+    <iframe id="spIframe" width="100%" height="80" frameborder="0"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      src="https://open.spotify.com/embed/track/607EA1HsuzrqqaPuxyNqpD?utm_source=generator&theme=0"
+      title="Spotify Player"></iframe>
+    <div id="spLabel" class="label">&#9658; Tıkla, çalsın</div>
+  </div>
+</div>
+
+<script>
+const REASONS=[["Gülüşün","Sen gülünce kalbim yerinden çıkıyor; dünya bir an duruyor sanki."],["Sesin","Adımı söyleyişin, içimde hiç bitmeyen bir şarkıya dönüşüyor."],["Gözlerin","İçine baktığım her an, yaşadığım en güzel sığınak."],["Kokun","Saçlarına gömüldüğümde dünyanın geri kalanını unutuyorum."],["Sarılışın","Kollarına her girdiğimde 'işte ev burası' diyorum."],["Düşüncelerin","Aklın kalbin kadar güzel; seni dinlemeye doyamıyorum."],["Sabrın","En kırılgan halimi bile sevgiyle taşıyorsun, Ela."],["Saflığın","İçindeki çocuğa, hayalciliğine, o tertemiz kalbine hayranım."],["Cesaretin","Hayatın karanlık anlarında bile ışığı seçen birisin."],["Yan yana yürüyüşümüz","Elini tuttuğum her an, bir ömür daha eklemek istiyorum yanına."],["Beni sen yaptığın için","Senin yanında olduğum versiyonum, en sevdiğim ben."],["Sonsuza dek","Çünkü 'seni seviyorum' bile yetmiyor — sen benim 'her şey'imsin."]];
+const PHOTOS=[["https://customer-assets.emergentagent.com/job_intimate-design-1/artifacts/l24nhj51_IMG_20260617_173359_424.jpg","Yüzündeki her öpücük, kalbimin sana bıraktığı bir mühür gibi — sen benim en kıymetli aşkımsın."],["https://customer-assets.emergentagent.com/job_intimate-design-1/artifacts/arw2cve0_IMG_20260617_173401_533.jpg","Saçlarına dokunan rüzgâr bile sana âşık olmak için sıra bekliyor, Ela."],["https://customer-assets.emergentagent.com/job_intimate-design-1/artifacts/ha5jgswf_IMG_20260617_173613_660.jpg","Sen gülümseyince dünyam bir oktav yukarı çıkıyor; sensiz sessizliğe katlanamıyorum."],["https://customer-assets.emergentagent.com/job_intimate-design-1/artifacts/j3y2ircj_IMG_20260617_173624_863.jpg","Her bir öpücük izi sana ait, ama o yüzü gören kalbim çoktan senin oldu — sonsuza dek."],["https://customer-assets.emergentagent.com/job_intimate-design-1/artifacts/osxzd6kc_IMG_20260617_173418_647.jpg","Uykulu halinle bile bu kadar güzelsen, gözlerimi senden hiç ayırmayacağım, Ela."],["https://customer-assets.emergentagent.com/job_intimate-design-1/artifacts/op6ehmx0_IMG_20260617_173427_023.jpg","Bakışların bir şiir kadar derin; içinde kayboldukça yolumu aramaktan vazgeçtim, sen oldun yolum."],["https://customer-assets.emergentagent.com/job_intimate-design-1/artifacts/rtuycqo6_IMG_20260617_173536_949.jpg","Çillerinin her biri kalbime düşmüş bir minik öpücük — sayar dururum geceleri, gülerek."],["https://customer-assets.emergentagent.com/job_intimate-design-1/artifacts/88uy6l1y_IMG_20260617_173613_660.jpg","Sen yanımdayken hayat bir şarkı, sen olmadığında sessizliğin en derini — ne olur hep yanımda kal, Ela."]];
+const GIFS=["https://customer-assets.emergentagent.com/job_intimate-design-1/artifacts/jslktf1y_f9476d72df72b765350f80f53ea17b17.gif","https://customer-assets.emergentagent.com/job_intimate-design-1/artifacts/0g926o22_04869e09851353129379e535502d87e4.gif","https://customer-assets.emergentagent.com/job_intimate-design-1/artifacts/jalj5sfc_f258997a921c7f6c2ebf19ebcd25cfa7%20%281%29.gif","https://customer-assets.emergentagent.com/job_intimate-design-1/artifacts/5mqw2im8_2798574196506e46410d94c98c3bc8b7.gif","https://customer-assets.emergentagent.com/job_intimate-design-1/artifacts/7bpxlo1i_61b1cb2c294b128f3ead243d5d5e2f88.gif"];
+const NO_MSGS=["Hayır","Emin misin?","Düşün biraz","Lütfen olmaz...","Yakalayamazsın","Ela lütfen","Kabul et lütfeeen","Sen sevmesen kim sever beni?"];
+const TRACK_ID="607EA1HsuzrqqaPuxyNqpD";
+
+(function hearts(){
+  const wrap=document.getElementById('hearts');
+  for(let i=0;i<12;i++){
+    const s=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    const size=12+Math.random()*22;
+    s.setAttribute('viewBox','0 0 24 24');s.setAttribute('width',size);s.setAttribute('height',size);
+    s.classList.add('heart');
+    s.style.left=Math.random()*100+'%';
+    s.style.opacity=.3+Math.random()*.4;
+    s.style.animationDuration=(16+Math.random()*14)+'s';
+    s.style.animationDelay=(Math.random()*14)+'s';
+    s.innerHTML='<path d="M12 21s-7.5-4.6-9.5-9.4C1 7.6 4 4 7.5 4c2 0 3.4 1.1 4.5 2.7C13.1 5.1 14.5 4 16.5 4 20 4 23 7.6 21.5 11.6 19.5 16.4 12 21 12 21Z" fill="'+(Math.random()>.5?'#d90429':'#ff4d6d')+'"/>';
+    wrap.appendChild(s);
+  }
+})();
+
+(function pets(){
+  const wrap=document.getElementById('pets');
+  for(let i=0;i<5;i++){
+    const size=34+Math.random()*22;
+    const topPct=6+Math.random()*80;
+    const dur=32+Math.random()*22;
+    const delay=-Math.random()*dur;
+    const reverse=Math.random()>.5;
+    const bobAmp=18+Math.random()*30;
+    const bobDur=3+Math.random()*3;
+    const div=document.createElement('div');
+    div.className='pet';
+    div.style.cssText='top:'+topPct+'%;width:'+size+'px;height:'+size+'px;animation:'+(reverse?'flyRL':'flyLR')+' '+dur+'s linear '+delay+'s infinite';
+    const bob=document.createElement('div');
+    bob.className='bob';
+    bob.style.cssText='--bob-amp:'+bobAmp+'px;animation-duration:'+bobDur+'s;animation-delay:'+(-Math.random()*bobDur)+'s';
+    const img=document.createElement('img');img.src=GIFS[i%GIFS.length];img.alt='';img.draggable=false;
+    bob.appendChild(img);div.appendChild(bob);wrap.appendChild(div);
+  }
+})();
+
+(function reasonsFn(){
+  const grid=document.getElementById('reasonsGrid');
+  REASONS.forEach((r,i)=>{
+    const a=document.createElement('article');
+    a.className='reason glass';
+    a.innerHTML='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px"><span class="num">No.'+String(i+1).padStart(2,'0')+'</span><svg width="16" height="16" viewBox="0 0 24 24" fill="#d90429"><path d="M12 21s-7.5-4.6-9.5-9.4C1 7.6 4 4 7.5 4c2 0 3.4 1.1 4.5 2.7C13.1 5.1 14.5 4 16.5 4 20 4 23 7.6 21.5 11.6 19.5 16.4 12 21 12 21Z"/></svg></div><h3>'+r[0]+'</h3><p>'+r[1]+'</p>';
+    grid.appendChild(a);
+  });
+})();
+
+/* STATE */
+let started=false;
+const spotify=document.getElementById('spotify');
+const spIframe=document.getElementById('spIframe');
+const spLabel=document.getElementById('spLabel');
+function tryPlayMusic(){
+  // Direct iframe.src mutation inside user gesture handler — most reliable autoplay path
+  spIframe.src='https://open.spotify.com/embed/track/'+TRACK_ID+'?utm_source=generator&theme=0&autoplay=1&t='+Date.now();
+  spLabel.innerHTML='&#9834; Senin için, Ela &#10084;';
+  // Fallback: postMessage commands a couple of times
+  setTimeout(()=>{try{spIframe.contentWindow.postMessage({command:'toggle'},'https://open.spotify.com');}catch(_){}}, 800);
+  setTimeout(()=>{try{spIframe.contentWindow.postMessage({command:'toggle'},'https://open.spotify.com');}catch(_){}}, 2200);
+}
+function startExperience(){
+  if(started) return;
+  started=true;
+  tryPlayMusic();
+  document.getElementById('startBtn').style.display='none';
+  document.getElementById('scrollHint').style.display='flex';
+  setTimeout(openProposal,15000);
+}
+document.getElementById('startBtn').addEventListener('click',startExperience);
+document.getElementById('spClose').addEventListener('click',()=>spotify.style.display='none');
+
+/* LIGHTBOX */
+const lb=document.getElementById('lightbox');
+const lbImg=document.getElementById('lbImg');
+const lbCap=document.getElementById('lbCap');
+const lbDots=document.getElementById('lbDots');
+const lbCounter=document.getElementById('lbCounter');
+let idx=0;
+function renderLb(){
+  lbImg.src=PHOTOS[idx][0];
+  lbCap.innerHTML='<span style="color:#ff4d6d">&#10084;</span> '+PHOTOS[idx][1];
+  lbCounter.textContent=(idx+1)+' / '+PHOTOS.length;
+  [...lbDots.children].forEach((d,i)=>d.classList.toggle('active',i===idx));
+}
+PHOTOS.forEach((_,i)=>{
+  const b=document.createElement('button');
+  b.addEventListener('click',e=>{e.stopPropagation();idx=i;renderLb();});
+  lbDots.appendChild(b);
+});
+function openLb(){idx=0;renderLb();lb.classList.add('open');document.body.style.overflow='hidden';}
+function closeLb(){lb.classList.remove('open');document.body.style.overflow='';}
+function next(){idx=(idx+1)%PHOTOS.length;renderLb();}
+function prev(){idx=(idx-1+PHOTOS.length)%PHOTOS.length;renderLb();}
+document.getElementById('galleryOpen').addEventListener('click',openLb);
+document.getElementById('lbClose').addEventListener('click',closeLb);
+document.getElementById('lbPrev').addEventListener('click',e=>{e.stopPropagation();prev();});
+document.getElementById('lbNext').addEventListener('click',e=>{e.stopPropagation();next();});
+lb.addEventListener('click',e=>{if(e.target===lb) closeLb();});
+window.addEventListener('keydown',e=>{
+  if(!lb.classList.contains('open')) return;
+  if(e.key==='Escape') closeLb();
+  else if(e.key==='ArrowRight') next();
+  else if(e.key==='ArrowLeft') prev();
+});
+let touchStart=null;
+lb.addEventListener('touchstart',e=>touchStart=e.touches[0].clientX);
+lb.addEventListener('touchend',e=>{
+  if(touchStart==null) return;
+  const dx=e.changedTouches[0].clientX-touchStart;
+  if(dx>50) prev(); else if(dx<-50) next();
+  touchStart=null;
+});
+
+/* LOVE GAME */
+const yesBtn=document.getElementById('yesBtn');
+const noBtn=document.getElementById('noBtn');
+const gameBox=document.getElementById('gameBox');
+let gNoTries=0;
+function escapeNoBtn(btn,container){
+  const rect=container.getBoundingClientRect();
+  const maxX=rect.width/2-80;
+  const maxY=rect.height/2-50;
+  btn.style.transform='translate('+((Math.random()*2-1)*maxX)+'px,'+((Math.random()*2-1)*maxY)+'px)';
+}
+noBtn.addEventListener('mouseenter',()=>{gNoTries++;escapeNoBtn(noBtn,gameBox);noBtn.textContent=NO_MSGS[Math.min(gNoTries,NO_MSGS.length-1)];yesBtn.style.transform='scale('+(1+Math.min(gNoTries*.06,.6))+')';});
+noBtn.addEventListener('focus',()=>{gNoTries++;escapeNoBtn(noBtn,gameBox);});
+noBtn.addEventListener('touchstart',()=>{gNoTries++;escapeNoBtn(noBtn,gameBox);noBtn.textContent=NO_MSGS[Math.min(gNoTries,NO_MSGS.length-1)];});
+noBtn.addEventListener('click',e=>{e.preventDefault();gNoTries++;escapeNoBtn(noBtn,gameBox);});
+yesBtn.addEventListener('click',()=>{
+  fireConfetti();
+  document.getElementById('gameTitle').innerHTML='<span class="text-shimmer">Ben de seni çok seviyorum, Ela &#10084;</span>';
+  document.getElementById('gameSub').textContent='Bu cevabı duyduğum an, kalbim bir kez daha senin oldu.';
+  gameBox.innerHTML='<div class="success-msg"><svg width="80" height="80" viewBox="0 0 24 24" fill="#d90429" class="heart-pulse"><path d="M12 21s-7.5-4.6-9.5-9.4C1 7.6 4 4 7.5 4c2 0 3.4 1.1 4.5 2.7C13.1 5.1 14.5 4 16.5 4 20 4 23 7.6 21.5 11.6 19.5 16.4 12 21 12 21Z"/></svg><p style="font-family:var(--font-heading);font-size:26px;color:#fff">Sonsuza kadar seninim, Ela.</p></div>';
+});
+
+/* MARRIAGE PROPOSAL */
+const proposal=document.getElementById('proposal');
+const pYes=document.getElementById('pYes');
+const pNo=document.getElementById('pNo');
+const proposalGame=document.getElementById('proposalGame');
+let pNoTries=0;
+const CRY_CAT='https://customer-assets.emergentagent.com/job_intimate-design-1/artifacts/16y10g39_2dc489f0565f6f9b325230ab59976c2e.gif';
+function openProposal(){proposal.classList.add('open');document.body.style.overflow='hidden';}
+function closeProposal(){proposal.classList.remove('open');document.body.style.overflow='';}
+document.getElementById('proposalDismiss').addEventListener('click',closeProposal);
+document.getElementById('pCloseSuccess').addEventListener('click',closeProposal);
+pNo.addEventListener('mouseenter',()=>{pNoTries++;escapeNoBtn(pNo,proposalGame);pNo.innerHTML='<img class="cry-cat" src="'+CRY_CAT+'" alt="">'+NO_MSGS[Math.min(pNoTries,NO_MSGS.length-1)];pYes.style.transform='scale('+(1+Math.min(pNoTries*.06,.6))+')';});
+pNo.addEventListener('focus',()=>{pNoTries++;escapeNoBtn(pNo,proposalGame);});
+pNo.addEventListener('touchstart',()=>{pNoTries++;escapeNoBtn(pNo,proposalGame);});
+pNo.addEventListener('click',e=>{e.preventDefault();pNoTries++;escapeNoBtn(pNo,proposalGame);});
+pYes.addEventListener('click',()=>{
+  fireConfetti();
+  document.getElementById('proposalAsk').style.display='none';
+  document.getElementById('proposalSuccess').style.display='block';
+  setTimeout(showFinalScene,1800);
+});
+
+
+function showFinalScene(){
+ const fs=document.getElementById('finalScene');
+ fs.classList.add('show');
+ fireConfetti();
+}
+
+/* CONFETTI */
+function fireConfetti(){
+  const colors=['#d90429','#ff4d6d','#ffb3c6','#800020','#ffffff'];
+  const cvs=document.createElement('canvas');
+  cvs.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:200';
+  cvs.width=innerWidth;cvs.height=innerHeight;
+  document.body.appendChild(cvs);
+  const ctx=cvs.getContext('2d');
+  const parts=[];
+  for(let i=0;i<140;i++){
+    parts.push({x:innerWidth/2,y:innerHeight/2,vx:(Math.random()-.5)*16,vy:(Math.random()-1)*18,g:.4,size:6+Math.random()*8,color:colors[i%colors.length],rot:Math.random()*Math.PI*2,vr:(Math.random()-.5)*.3,life:120+Math.random()*60});
+  }
+  let frame=0;
+  (function loop(){
+    frame++;ctx.clearRect(0,0,cvs.width,cvs.height);
+    let alive=0;
+    for(const p of parts){
+      if(p.life<=0) continue;
+      alive++;p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;p.life--;
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.color;
+      const s=p.size;
+      ctx.beginPath();ctx.moveTo(0,s*.3);
+      ctx.bezierCurveTo(s,-s*.4,s*1.5,s*.4,0,s*1.1);
+      ctx.bezierCurveTo(-s*1.5,s*.4,-s,-s*.4,0,s*.3);
+      ctx.fill();ctx.restore();
+    }
+    if(alive>0&&frame<260) requestAnimationFrame(loop); else cvs.remove();
+  })();
+}
+</script>
+
+<div id="finalScene">
+  <div id="kissPandas">
+    <img id="kissPanda1" src="1781737868215.png">
+    <img id="kissPanda2" src="1781737916252.png">
+  </div>
+  <h1 class="text-shimmer" style="font-size:64px">Sonsuza Dek Biz ❤️</h1>
+  <p style="font-size:24px;max-width:700px">Bu sadece başlangıç... Bundan sonraki bütün yarınlar bizim.</p>
+</div>
+
+</body>
+</html>
